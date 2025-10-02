@@ -1,25 +1,31 @@
+import requests
 import pandas as pd
 
-def analizar_ventas_diarias():
-    # Crear una Serie con ventas diarias
-    ventas = pd.Series([150, 200, 180, 220, 175, 190, 165], 
-                       index=["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"])
-    
-    # Acceder al valor del índice 3
-    valor_indice_3 = ventas[3]
-    
-    # Calcular el promedio de ventas
-    promedio = ventas.mean()
-    
-    # Ordenar por valores
-    ordenadas = ventas.sort_values()
-    
-    # Mostrar resultados
-    print("Ventas diarias:\n", ventas)
-    print("\nValor en el índice 3 (Jueves):", valor_indice_3)
-    print("\nPromedio de ventas:", promedio)
-    print("\nVentas ordenadas por valores:\n", ordenadas)
+def ejercicio_10():
+    url = "https://playground.mockoon.com/users"
 
-# Ejecutar la función
+    try:
+        # Realizar la petición GET
+        response = requests.get(url)
+
+        # Verificar que la respuesta sea exitosa
+        if response.status_code == 200:
+            # Convertir la respuesta JSON a DataFrame
+            df = pd.DataFrame(response.json())
+
+            print("Primeras 5 filas del DataFrame:")
+            print(df.head())
+
+            print("\nInformación del DataFrame:")
+            print(df.info())
+        else:
+            print(f"Error: La API respondió con el código {response.status_code}")
+
+    except requests.exceptions.ConnectionError:
+        print("Error: No se pudo conectar a la API.")
+    except Exception as e:
+        print(f"Ocurrió un error inesperado: {e}")
+
+
 if __name__ == "__main__":
-    analizar_ventas_diarias()
+    ejercicio_10()
